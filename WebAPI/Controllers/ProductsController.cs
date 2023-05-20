@@ -23,18 +23,64 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpGet]
-        public List<Product> Get()
+        [HttpGet("GetAll")]
+        public IActionResult Get()
         {
           
 
             // Dependency chain -- bağımlılık zinciri Product service product managera bagımlı halde
             
             var result = _productService.GetAll();
-            return result.Data;
+
+            if(result.Success) 
+            
+            {
+                return Ok(result); // 200 sunucuyla alakalı her şey yolunda demekdir
+            }
+            return BadRequest(result); // 400 sunucuyla alakalı bir hata demekdir
+
+
+        } 
+          [HttpGet("Getbyid")]
+        public IActionResult Get(int id)
+
+        {
+
+            var result = _productService.GetById(id);
+
+
+            if(result.Success)
+
+            {
+
+                return Ok(result);
+
+            }
+
+            return BadRequest(result);
 
 
         }
+
+        [HttpPost("add")]
+
+        //IActionResult http durumlarında kullanılır
+        public IActionResult Add(Product product)
+
+        {
+
+            var result = _productService.Add(product);
+
+            if(result.Success)
+
+            {
+                    return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+ 
 
 
     }

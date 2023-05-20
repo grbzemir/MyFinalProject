@@ -16,7 +16,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             // sql server kullanacağımızı belirtiyoruz. (baglanacagımızı)
 
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=Northwind;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=master;Trusted_Connection=true");
         }
 
         //Dbset baglama görevi görür!

@@ -24,6 +24,9 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        // AOP BİR METODUN ÖNÜNDE ARKASINDA ÇALIŞAN YAPILARDIR
+        // ÖRNEK OLARAK BİR METODUN BAŞINDA LOG YAZDIRMAK İSTİYORUZ
+
         public IResult Add(Product product)
         {
             // result döndürüyoruz çünkü iş kodları varsa eger buraya yazılır
@@ -48,16 +51,16 @@ namespace Business.Concrete
         public IDataResult<List<Product>> GetAll()
         {
 
-            //if(DateTime.Now.Hour==22)
+            if (DateTime.Now.Hour == 22)
 
-            //{
-            //    // Bakıma alındı mesajı döndürüyoruz
-            //    return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            {
+                // Bakıma alındı mesajı döndürüyoruz
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
 
-            //}
+            }
 
-            // iş kodları varsa eger yazılır
-            // bir iş sınıfı baska bir sınıfı newlemez o yüzden injection yapılır constructor ile
+            //iş kodları varsa eger yazılır
+            //bir iş sınıfı baska bir sınıfı newlemez o yüzden injection yapılır constructor ile
 
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(),Messages.ProductsListed);
 
