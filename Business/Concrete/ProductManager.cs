@@ -11,6 +11,9 @@ using Entities.DTOs;
 using Core.Utilities.Result;
 using System.Runtime.InteropServices;
 using Business.Constants;
+using FluentValidation;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 
 namespace Business.Concrete
 {
@@ -27,18 +30,13 @@ namespace Business.Concrete
         // AOP BİR METODUN ÖNÜNDE ARKASINDA ÇALIŞAN YAPILARDIR
         // ÖRNEK OLARAK BİR METODUN BAŞINDA LOG YAZDIRMAK İSTİYORUZ
 
+        [validationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             // result döndürüyoruz çünkü iş kodları varsa eger buraya yazılır
             // İş kodları varsa eger buraya yazılır
+            // validation ekleme yapıcaksak eger buraya yazılır
             
-            if(product.ProductName.Length<2)
-
-            {
-
-                return new ErrorResult(Messages.ProductNameInvalid);
-
-            }
 
              _productDal.Add(product);
 
