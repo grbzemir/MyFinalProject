@@ -1,6 +1,9 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
+using Business.CCS;
 using Business.Concrete;
+using Core.Utilities.Interceptors;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using System;
@@ -20,23 +23,19 @@ namespace Business.DependencyResolvers.Autofac
             // SingleInstance tek bir instance oluşturur ve onu herkese verir
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
-            // Startup.cs deki services.AddSingleton<IProductService,ProductManager>(); kodu ile aynı işi yapıyor
-            // SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
-            // Autofac deki SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
-            // Autofac deki SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
-            // Autofac deki SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
-            // Autofac deki SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
-            // Autofac deki SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
-            // Autofac deki SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
-            // Autofac deki SingleInstance tek bir instance oluşturur ve onu herkese verir
-            // Autofac deki SingleInstance ile Microsoftun SingleInstance farklıdır
+            builder.RegisterType<FileLogger>().As<ILogger>().SingleInstance();
+
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            // assemblydeki tüm classları bul
+
+            builder .RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+                .EnableInterfaceInterceptors(new Castle.DynamicProxy.ProxyGenerationOptions()
+                {
+                    // AutofacInterceptorSelector classını çalıştır
+                    Selector = new AspectInterceptorSelector()
+                }).SingleInstance();
+            
         }
 
     }

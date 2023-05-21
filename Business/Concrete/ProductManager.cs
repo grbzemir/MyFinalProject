@@ -14,35 +14,59 @@ using Business.Constants;
 using FluentValidation;
 using Business.ValidationRules.FluentValidation;
 using Core.CrossCuttingConcerns.Validation;
+using Business.CCS;
 
 namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
+        ILogger _logger;
 
-        public ProductManager(IProductDal productDal)
+        public ProductManager(IProductDal productDal , ILogger logger)
 
         {
             _productDal = productDal;
+            _logger = logger;
         }
 
         // AOP BİR METODUN ÖNÜNDE ARKASINDA ÇALIŞAN YAPILARDIR
         // ÖRNEK OLARAK BİR METODUN BAŞINDA LOG YAZDIRMAK İSTİYORUZ
 
-        [validationAspect(typeof(ProductValidator))]
+        //[validationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
+
+             // try cache ile deniyoru
+
+            _logger.Log();
+             try
+
+            {
+                _productDal.Add(product);
+
+                 return new SuccessResult(Messages.ProductAdded); // void yerine result döndürüyoruz ! 
+
+
+            }
+
+            catch (Exception exception) 
+            
+            {
+
+                _logger.Log();
+            
+            
+            }
+
+            return new ErrorResult();
+
+            
+
             // result döndürüyoruz çünkü iş kodları varsa eger buraya yazılır
             // İş kodları varsa eger buraya yazılır
             // validation ekleme yapıcaksak eger buraya yazılır
-            
-
-             _productDal.Add(product);
-
-             return new SuccessResult(Messages.ProductAdded); // void yerine result döndürüyoruz ! 
-
-
+            // Loglama yapılan işlemlerin çalışmaların bir yerde kaydını tutmaktı
         
         }
 

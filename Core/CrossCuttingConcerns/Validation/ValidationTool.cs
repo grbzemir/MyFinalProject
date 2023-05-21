@@ -7,25 +7,23 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Core.CrossCuttingConcerns.Validation
 {
-    public class ValidationTool
+    public class ValidationToo
 
     {
-        public static void Validate(IValidator validator )
 
+        public static void Validate(IValidator validator, object entity)
         {
-
-            var context = new ValidationContext<Product>(product);
-            ProductValidator productValidator = new ProductValidator();
-            var result = productValidator.Validate(context);
-
+            var context = new ValidationContext<object>(entity);
+            var result = validator.Validate(context);
             if (!result.IsValid)
             {
                 throw new ValidationException(result.Errors);
             }
         }
-
+       
     }
 }

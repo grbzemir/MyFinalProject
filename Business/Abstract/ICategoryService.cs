@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Utilities.Result;
 using Entities.Concrete;
 
 namespace Business.Abstract
@@ -12,9 +13,9 @@ namespace Business.Abstract
 
     {
 
-        List<Category> GetAll();
+        IDataResult <List<Category>> GetAll();
 
-        Category GetById(int categoryId);
+        IDataResult <Category> GetById(int categoryId);
 
 
     }

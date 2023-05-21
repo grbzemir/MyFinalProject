@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Aspects.Autofac.Validation
+namespace Core.Utilities.Business
 {
-    internal class Class1
+    internal class BusinessRules
     {
     }
 }
